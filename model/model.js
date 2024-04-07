@@ -147,6 +147,12 @@ const documentationSchema = new mongoose.Schema({
   reminderDays: {
     type: String,
   },
+  originalname: {
+    type: String,
+  },
+  filename: {
+    type: String,
+  },
 });
 const TwoUser = mongoose.model("TwoUser", userSchema);
 const Vehicle = mongoose.model("Vehicle", vehicleScheme);

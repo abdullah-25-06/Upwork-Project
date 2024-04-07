@@ -9,7 +9,7 @@ const CustomErrorApi = require("../err/err");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const generateAuthToken = require("../jwt/jwt");
-const { parsePhoneNumber } = require("awesome-phonenumber");
+// const { parsePhoneNumber } = require("awesome-phonenumber");
 
 const signupuser = async (req, res) => {
   try {
@@ -135,7 +135,7 @@ const addVehicle = async (req, res) => {
 const deleteVehicle = async (req, res) => {
   try {
     const { id } = req.query;
-    
+
     if (!id) {
       return res.status(400).json({ msg: "All fields are required" });
     }
@@ -228,6 +228,7 @@ const addMaintance = async (req, res) => {
     return res.status(400).json({ msg: "Please try again" });
   }
 };
+
 const addDocument = async (req, res) => {
   try {
     const {
@@ -254,6 +255,8 @@ const addDocument = async (req, res) => {
           endDate,
           reminders,
           reminderDays,
+          originalname: req.file.originalname,
+          filename: req.file.filename,
           vehicle: car.id,
         },
         { new: true }
@@ -269,10 +272,14 @@ const addDocument = async (req, res) => {
       endDate,
       reminders,
       reminderDays,
+      originalname: req.file.originalname,
+      filename: req.file.filename,
       vehicle: car.id,
     });
     if (!vehicle) return res.status(200).json({ msg: "No vehicle" });
-    return res.status(200).json({ vehicle: vehicle });
+    return res
+      .status(200)
+      .json({ vehicle: { originalname: req.file.originalname } });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ msg: "Please try again" });
