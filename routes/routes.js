@@ -14,6 +14,8 @@ const {
 } = require("../controller/controller");
 const authMiddleware = require("../middleswares/auth");
 const multer = require("multer");
+
+// Configure multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads");
@@ -24,7 +26,10 @@ const storage = multer.diskStorage({
   },
 });
 
+// Initialize multer with the configured storage
 const upload = multer({ storage: storage });
+
+// Define routes with middleware and controller functions
 userRouter.route("/signup").post(authMiddleware, signupuser);
 userRouter.route("/login").post(authMiddleware, login);
 userRouter.route("/logout").post(authMiddleware, logout);
@@ -33,9 +38,7 @@ userRouter.route("/delete").post(authMiddleware, deleteVehicle);
 userRouter.route("/update").post(authMiddleware, updateVehicle);
 userRouter.route("/detail").get(authMiddleware, getDetail);
 userRouter.route("/maintance").post(authMiddleware, addMaintance);
-userRouter
-  .route("/doc")
-  .post(authMiddleware, upload.single("file"), addDocument);
+userRouter.route("/doc").post(authMiddleware, upload.single("file"), addDocument);
 userRouter.route("/getmaintance").get(authMiddleware, addMaintance);
 userRouter.route("/getdoc").get(authMiddleware, getDocument);
 
